@@ -12,9 +12,26 @@ router.put("/:id", async (req,res) => {
             req.body.password = await bcrypt.hash(req.body.password, salt);
         }
         try{
+            // const posts = await Post.find({username: req.body.username} ,{
+            //     $set: {
+
+            //     }
+            // })
+            
+
             const updatedUser = await User.findByIdAndUpdate(req.params.id, {
-                $set : req.body, 
+                $set : {
+                    username: req.body.username,
+                    email: req.body.email,
+                    password: req.body.password,
+                }, 
             },{new:true});
+
+            const user = req.body.oldUser;
+            console.log(user);
+            const posts = await Post.updateMany({ username: user },{ $set: {username: req.body.username}});
+            console.log(posts);
+            console.log(updatedUser.username)
             res.status(200).json(updatedUser)
         }
          catch (err){

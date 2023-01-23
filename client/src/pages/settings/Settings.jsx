@@ -10,6 +10,8 @@ export default function Settings() {
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
   const { user,dispatch } = useContext(Context);
+  const [oldUser ,setOldUser] = useState(user.username);
+  console.log(oldUser);
   const PF = "http://localhost:8000/images/";
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,6 +21,7 @@ export default function Settings() {
       username,
       email,
       password,
+      oldUser,
     };
     if (file) {
       const data = new FormData();
